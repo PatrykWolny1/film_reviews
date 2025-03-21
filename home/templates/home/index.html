@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Layout</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style_index.css' %}">
+</head>
+<body>
+    <header>
+        <div class="header-bg"></div>
+    </header>
+    <div class="logo">
+        <img src="../static/css/img/logo.png" alt="Logo">
+    </div>
+    <nav class="menu-container">
+        <div class="menu-wrapper">
+            <ul class="menu">
+                <li><a href="#">Films</a></li>
+                <li><a href="#">Reviews</a></li>
+                <li><a href="#">Best movies</a></li>
+            </ul>
+            <div class="auth">
+                <a href="#" class="login">Login</a>
+                <a href="#" class="register">Register</a>
+            </div>
+        </div>
+    </nav>
+    
+</body>
+</html>
