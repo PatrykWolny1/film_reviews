@@ -13,49 +13,56 @@
     <header>
         <div class="header-bg"></div>
     </header>
-    <a href="{% url 'home.index' %}">
-        <div class="logo">
-        </div>
-    </a>
-    <nav class="menu-container">
-        <div class="menu-wrapper">
-            <ul class="menu">
-                <li><a href="#">Films</a></li>
-                <li><a href="#">Reviews</a></li>
-                <li><a href="#">Best movies</a></li>
-            </ul>
-            <div class="auth">
-                <a href="#" class="login">Login</a>
-                <a href="#" class="register">Register</a>
+    <div class="top-nav">
+        <a href="{% url 'home.index' %}">
+            <div class="logo">
             </div>
-        </div>
-    </nav>
+        </a>
+        <nav class="menu-container">
+            <div class="menu-wrapper">
+                <ul class="menu">
+                    <li><a href="{% url 'home.films' %}">Films</a></li>
+                    <li><a href="#">Reviews</a></li>
+                    <li><a href="#">Best movies</a></li>
+                </ul>
+                <div class="auth">
+                    <a href="#" class="login">Login</a>
+                    <a href="#" class="register">Register</a>
+                </div>
+            </div>
+        </nav>
+  
+    </div>
     <div class="quote-of-the-day">
         <h2>Quote of the Day</h2>
         <p id="daily-quote">"May the Force be with you." - Star Wars</p>
     </div>
-    <main> <!-- Main content wrapper -->
-        <div class="featured-films">
-            <h2>Featured Films</h2>
-        </div>    
-        <div class="movie-gallery">
-            <div class="movie-thumbnails">
-                <img src="../static/css/img/cleaner.jpg" alt="Cleaner" class="blur-effect">
-                <img src="../static/css/img/duplicity.jpg" alt="Duplicity" class="favorite">
-                <img src="../static/css/img/zzone.jpg" alt="ZZone" class="blur-effect">
-                <img src="../static/css/img/counterstrike.jpg" alt="Counterstrike" class="blur-effect">
+    <main>
+        <div class="gallery-section">
+            <div class="section-header">
+                <div class="featured-films">
+                    <h2>Featured Films</h2>
+                </div>
             </div>
-            <div class="movie-details" style="display: none;">
-                <img class="movie-image" src="" alt="" style="max-height: 350px;">
-                <div class="text-details">
-                    <h3 class="movie-title"></h3>
-                    <p class="movie-description"></p>
-                    <p class="movie-rating"></p>
+            <div class="movie-gallery">
+                <div class="movie-thumbnails">
+                    <img src="../static/css/img/cleaner.jpg" alt="Cleaner" class="blur-effect">
+                    <img src="../static/css/img/duplicity.jpg" alt="Duplicity" class="favorite">
+                    <img src="../static/css/img/zzone.jpg" alt="ZZone" class="blur-effect">
+                    <img src="../static/css/img/counterstrike.jpg" alt="Counterstrike" class="blur-effect">
+                </div>
+                <div class="movie-details" style="display: none;">
+                    <img class="movie-image" src="" alt="" style="max-height: 350px;">
+                    <div class="text-details">
+                        <h3 class="movie-title"></h3>
+                        <p class="movie-description"></p>
+                        <p class="movie-rating"></p>
+                    </div>
                 </div>
             </div>
         </div>
-
-    </main>    
+    </main>
+    
     <footer>
         <div class="footer-container">
             <div class="info">
