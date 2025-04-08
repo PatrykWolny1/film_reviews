@@ -22,8 +22,8 @@
             <div class="menu-wrapper">
                 <ul class="menu">
                     <li><a href="{% url 'home.films' %}">Films</a></li>
-                    <li><a href="#">Reviews</a></li>
-                    <li><a href="#">Best movies</a></li>
+                    <li><a href="{% url 'home.reviews' %}">Reviews</a></li>
+                    <li><a href="{% url 'home.best_movies' %}">Best movies</a></li>
                 </ul>
                 <div class="auth">
                     <a href="#" class="login">Login</a>
@@ -45,27 +45,27 @@
             <div class="films-list">
                 <div class="movie-thumbnails">
                     <div class="film-card">
-                        <img src="../static/css/img/cleaner.jpg" alt="Cleaner" class="blur-effect">
+                        <img src="../static/css/img/cleaner.jpg" alt="Cleaner">
                         <button class="btn-description">Description</button>
                         <button class="btn-review">Review</button>
                     </div>
                     <div class="film-card">
-                        <img src="../static/css/img/duplicity.jpg" alt="Duplicity" class="favorite">
+                        <img src="../static/css/img/duplicity.jpg" alt="Duplicity">
                         <button class="btn-description">Description</button>
                         <button class="btn-review">Review</button>
                     </div>
                     <div class="film-card">
-                        <img src="../static/css/img/zzone.jpg" alt="ZZone" class="blur-effect">
+                        <img src="../static/css/img/zzone.jpg" alt="ZZone">
                         <button class="btn-description">Description</button>
                         <button class="btn-review">Review</button>
                     </div>
                     <div class="film-card">
-                        <img src="../static/css/img/counterstrike.jpg" alt="Counterstrike" class="blur-effect">
+                        <img src="../static/css/img/counterstrike.jpg" alt="Counterstrike">
                         <button class="btn-description">Description</button>
                         <button class="btn-review">Review</button>
                     </div>
                     <div class="film-card">
-                        <img src="../static/css/img/white_lotus.jpg" alt="White Lotus" class="blur-effect">
+                        <img src="../static/css/img/white_lotus.jpg" alt="White Lotus">
                         <button class="btn-description">Description</button>
                         <button class="btn-review">Review</button>
                     </div>
@@ -88,7 +88,7 @@
             <div class="links">
                 <h3>Quick Links</h3>
                 <ul>
-                    <li><a href="#">Home</a></li>
+                    <li><a href="{% url 'home.index' %}">Home</a></li>
                     <li><a href="#">Latest Reviews</a></li>
                     <li><a href="#">Best movies</a></li>
                 </ul>
