@@ -14,16 +14,16 @@
         <div class="header-bg"></div>
     </header>
     <div class="top-nav">
-        <a href="{% url 'home.index' %}">
+        <a href="{% url 'index' %}">
             <div class="logo">
             </div>
         </a>
         <nav class="menu-container">
             <div class="menu-wrapper">
                 <ul class="menu">
-                    <li><a href="{% url 'home.films' %}">Films</a></li>
-                    <li><a href="{% url 'home.reviews' %}">Reviews</a></li>
-                    <li><a href="{% url 'home.best_movies' %}">Best movies</a></li>
+                    <li><a href="{% url 'films' %}">Films</a></li>
+                    <li><a href="{% url 'reviews' %}">Reviews</a></li>
+                    <li><a href="{% url 'best_movies' %}">Best movies</a></li>
                 </ul>
                 <div class="auth">
                     <a href="#" class="login">Login</a>
@@ -44,34 +44,45 @@
             </div>
             <div class="films-list">
                 <div class="movie-thumbnails">
+                    {% for movie in template_data.movies %}
                     <div class="film-card">
-                        <img src="../static/css/img/cleaner.jpg" alt="Cleaner">
-                        <button class="btn-description">Description</button>
-                        <button class="btn-review">Review</button>
+                        <a href="{% url 'movie_description' movie.id %}"><img src="{{ movie.image.url }}" alt="{{ movie.title }}"></a>
+                        <a href="{% url 'movie_description' movie.id %}" class="btn-link-wrapper"><button class="btn-description">Description</button></a>
+                        <a href="{% url 'movie_reviews' movie.id %}" class="btn-link-wrapper"><button class="btn-review">Review</button></a>
                     </div>
-                    <div class="film-card">
-                        <img src="../static/css/img/duplicity.jpg" alt="Duplicity">
-                        <button class="btn-description">Description</button>
-                        <button class="btn-review">Review</button>
-                    </div>
-                    <div class="film-card">
-                        <img src="../static/css/img/zzone.jpg" alt="ZZone">
-                        <button class="btn-description">Description</button>
-                        <button class="btn-review">Review</button>
-                    </div>
-                    <div class="film-card">
-                        <img src="../static/css/img/counterstrike.jpg" alt="Counterstrike">
-                        <button class="btn-description">Description</button>
-                        <button class="btn-review">Review</button>
-                    </div>
-                    <div class="film-card">
-                        <img src="../static/css/img/white_lotus.jpg" alt="White Lotus">
-                        <button class="btn-description">Description</button>
-                        <button class="btn-review">Review</button>
-                    </div>
-                    <div class="film-card add-new">
+                    {% endfor %}
+                    <!-- Add New movie card with modal trigger -->
+                    <div class="film-card add-new" id="openAddMovieModal">
                         <div class="add-placeholder">
-                            <span>ADD NEW FILM</span>
+                            <span>ADD NEW MOVIE</span>
+                        </div>
+                    </div>
+
+                    <!-- Modal Form -->
+                    <div id="addMovieModal" class="modal" style="display:none;">
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+
+                            <form id="movieForm" method="POST" enctype="multipart/form-data" action="{% url 'add_movie' %}">
+                                {% csrf_token %}
+                            
+                                <label for="id_name">Title</label><br>
+                                <input type="text" name="name" id="id_name" maxlength="255" required><br><br>
+                            
+                                <label for="id_description">Description</label><br>
+                                <textarea name="description" id="id_description" rows="4" required></textarea><br><br>
+                            
+                                <label for="id_image">Thumbnail</label><br>
+                                <input type="file" name="image" id="id_image" accept="image/*" required><br><br>
+                            
+                                <div class="submit-wrapper">
+                                    <button type="submit">Add Movie</button>
+                                </div>
+                                <p id="formSuccessMessage" style="display: none; color: #4caf50; text-align: center; margin-top: 10px;">
+                                    Movie added!
+                                </p>
+                            </form>
+                            
                         </div>
                     </div>
                 </div>
@@ -88,9 +99,9 @@
             <div class="links">
                 <h3>Quick Links</h3>
                 <ul>
-                    <li><a href="{% url 'home.index' %}">Home</a></li>
+                    <li><a href="{% url 'index' %}">Home</a></li>
                     <li><a href="#">Latest Reviews</a></li>
-                    <li><a href="#">Best movies</a></li>
+                    <li><a href="{% url 'best_movies' %}">Best movies</a></li>
                 </ul>
             </div>
             <div class="contact">

@@ -14,16 +14,16 @@
         <div class="header-bg"></div>
     </header>
     <div class="top-nav">
-        <a href="{% url 'home.index' %}">
+        <a href="{% url 'index' %}">
             <div class="logo">
             </div>
         </a>
         <nav class="menu-container">
             <div class="menu-wrapper">
                 <ul class="menu">
-                    <li><a href="{% url 'home.films' %}">Films</a></li>
-                    <li><a href="{% url 'home.reviews' %}">Reviews</a></li>
-                    <li><a href="#">Best movies</a></li>
+                    <li><a href="{% url 'films' %}">Films</a></li>
+                    <li><a href="{% url 'reviews' %}">Reviews</a></li>
+                    <li><a href="{% url 'best_movies' %}">Best movies</a></li>
                 </ul>
                 <div class="auth">
                     <a href="#" class="login">Login</a>
@@ -72,9 +72,9 @@
             <div class="links">
                 <h3>Quick Links</h3>
                 <ul>
-                    <li><a href="#">Home</a></li>
+                    <li><a href="{% url 'index' %}">Home</a></li>
                     <li><a href="#">Latest Reviews</a></li>
-                    <li><a href="#">Best movies</a></li>
+                    <li><a href="{% url 'best_movies' %}">Best movies</a></li>
                 </ul>
             </div>
             <div class="contact">

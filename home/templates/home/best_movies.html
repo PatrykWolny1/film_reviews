@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Film Reviews</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style_reviews.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style_best_movies.css' %}">
     <link rel="icon" href="{% static 'css/img/film-strip.png' %}" type="image/png">
     <script src="{% static '../static/js/reviews.js' %}" defer></script>
 </head>
@@ -14,16 +14,16 @@
         <div class="header-bg"></div>
     </header>
     <div class="top-nav">
-        <a href="{% url 'home.index' %}">
+        <a href="{% url 'index' %}">
             <div class="logo">
             </div>
         </a>
         <nav class="menu-container">
             <div class="menu-wrapper">
                 <ul class="menu">
-                    <li><a href="{% url 'home.films' %}">Films</a></li>
-                    <li><a href="{% url 'home.reviews' %}">Reviews</a></li>
-                    <li><a href="{% url 'home.best_movies' %}">Best movies</a></li>
+                    <li><a href="{% url 'films' %}">Films</a></li>
+                    <li><a href="{% url 'reviews' %}">Reviews</a></li>
+                    <li><a href="{% url 'best_movies' %}">Best movies</a></li>
                 </ul>
                 <div class="auth">
                     <a href="#" class="login">Login</a>
@@ -38,9 +38,9 @@
         <p id="daily-quote">"May the Force be with you." - Star Wars</p>
     </div>
     <main>
-        <div class="reviews-section">
-            <div class="list-of-reviews">
-                <h2>List of reviews</h2>
+        <div class="best-movies-section">
+            <div class="list-of-best-movies">
+                <h2>Best movies</h2>
             </div>
             <div class="movie-gallery">
                 <div class="movie-card">
@@ -86,13 +86,6 @@
                             "against major world cities.</p>
                     </div>
                 </div>
-                <div class="movie-add-new">
-                    <div class="film-card add-new">
-                        <div class="add-placeholder">
-                            <span>ADD NEW REVIEW</span>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </main>
@@ -106,9 +99,9 @@
             <div class="links">
                 <h3>Quick Links</h3>
                 <ul>
-                    <li><a href="{% url 'home.index' %}">Home</a></li>
+                    <li><a href="{% url 'index' %}">Home</a></li>
                     <li><a href="#">Latest Reviews</a></li>
-                    <li><a href="#">Best movies</a></li>
+                    <li><a href="{% url 'best_movies' %}">Best movies</a></li>
                 </ul>
             </div>
             <div class="contact">

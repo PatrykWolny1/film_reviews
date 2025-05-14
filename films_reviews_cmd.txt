@@ -1,0 +1,38 @@
+Set up NGINX
+
+Set configuration in file, create file e.g film_reviews and then include it in nginx.conf file
+sudo nano /etc/nginx/sites-available/film_reviews
+
+sudo nano /etc/nginx/nginx.conf.default
+"http {
+    include /etc/nginx/sites-enabled/*;
+    ..."
+
+sudo tail -f /var/log/nginx/error.log
+sudo tail -f /var/log/nginx/access.log
+
+In django settings:
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout localhost.key -out localhost.crt -subj "/C=US/ST=YourState/L=YourCity/O=YourOrganization/CN=localhost"
+ssl_certificate /etc/nginx/ssl/localhost.crt;
+ssl_certificate_key /etc/nginx/ssl/localhost.key;
+
+Next set permissions to above ssl files
+
+If Daphne should not be accessible publicly then:
+sudo iptables -A INPUT -p tcp --dport 8000 -s localhost -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 8000 -j DROP
+
+The error message connect() to 127.0.0.1:8000 failed (13: Permission denied) while connecting to upstream:
+sudo setenforce 0
+
+If this worked then use:
+
+sudo setsebool -P httpd_can_network_connect 1
+sudo semanage port -a -t http_port_t -p tcp 8000
+sudo systemctl restart nginx
+sudo setenforce 1
+
+sudo /home/patryk/anaconda3/bin/daphne -e ssl:8000:privateKey=/etc/nginx/ssl/localhost.key:certKey=/etc/nginx/ssl/localhost.crt film_reviews.asgi:application
+daphne -p 8000 film_reviews.asgi:application
