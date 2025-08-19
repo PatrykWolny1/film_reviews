@@ -1,0 +1,27 @@
+<form id="reviewForm" method="POST" enctype="multipart/form-data" action="{% url 'add_review' %}">
+  {% csrf_token %}
+
+  <!-- Show current user -->
+  <div class="review-header" style="margin-bottom: 10px; color: white;">
+    Reviewing as <strong>{{ request.user.username }}</strong>
+  </div>
+
+  <!-- If your model still has 'name' field (hidden) -->
+  <input type="hidden" name="name" value="{{ request.user.username }}">
+
+  <label for="id_movie">Movie</label><br>
+  <select name="movie" id="id_movie" required>
+    {% for movie in movies %}
+      <option value="{{ movie.id }}">{{ movie.name }}</option>
+    {% endfor %}
+  </select>
+  <br><br>
+
+  <label for="id_review">Review</label><br>
+  <textarea name="review" id="id_review" rows="4" required></textarea>
+  <br><br>
+
+  <div class="submit-wrapper">
+    <button type="submit">Add Review</button>
+  </div>
+</form>

@@ -86,26 +86,12 @@
                             "against major world cities.</p>
                     </div>
                 </div>
-                <div class="movie-add-new" id="openAddReviewModal">
+                <div class="movie-add-new">
                     <div class="film-card add-new">
                         <div class="add-placeholder">
                             <span>ADD NEW REVIEW</span>
                         </div>
                     </div>
-                </div>
-
-                <div id="addReviewModal" class="modal" style="display:none;">
-                <div class="modal-content">
-                    <span class="close" aria-label="Close">&times;</span>
-                    {% include "home/partials/_review_form.html" %}
-                </div>
-                </div>
-
-                {% if messages %}
-                <div class="flash">
-                    {% for m in messages %}<p>{{ m }}</p>{% endfor %}
-                </div>
-                {% endif %}
                 </div>
             </div>
         </div>
