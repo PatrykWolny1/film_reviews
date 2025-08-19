@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Film Reviews</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style_movie_reviews.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style_movie_description.css' %}">
     <link rel="icon" href="{% static 'css/img/film-strip.png' %}" type="image/png">
 </head>
 <body>
@@ -37,6 +37,17 @@
         <p id="daily-quote">"May the Force be with you." - Star Wars</p>
     </div>
     <main>
+        <div class="movie-detail">
+            <div class="thumb">
+                <img src="{{ movie.image.url }}" alt="{{ movie.name }}">
+            </div>
+            <div class="info">
+                <h1>{{ movie.name }}</h1>
+                <p class="date">{{ movie.add_date }}</p>
+                <p>{{ movie.description }}</p>
+                <a class="back-link" href="{% url 'films' %}">Back to list</a>
+            </div>
+        </div>
 
     </main>
     

@@ -54,7 +54,7 @@ def best_movies(request):
 def movie_description(request, movie_id):
     movie = get_object_or_404(Movie, id=movie_id)
 
-    return render(request, 'home/movie_details.html', {'movie': movie})
+    return render(request, 'home/movie_description.html', {'movie': movie})
 
 def movie_reviews(request, movie_id):
     movie = get_object_or_404(Movie, id=movie_id)
