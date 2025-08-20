@@ -2,6 +2,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Movie
 from .forms import MovieForm, ReviewForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+from django.shortcuts import render, redirect
 
 def index(request):
     return render(request, 'home/index.html')
@@ -45,7 +48,8 @@ def add_review(request):
 
 
 def reviews(request):
-    return render(request, 'home/reviews.html')
+    movies = Movie.objects.all().order_by("name")
+    return render(request, 'home/reviews.html', {'movies' : movies})
 
 def best_movies(request):
     return render(request, 'home/best_movies.html')
@@ -65,3 +69,13 @@ def movie_reviews(request, movie_id):
         'reviews': reviews,
     })
 
+def signup(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)   # auto login after signup
+            return redirect('films')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/signup.html', {'form': form})

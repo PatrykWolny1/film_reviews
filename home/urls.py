@@ -6,7 +6,6 @@ from . import views
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('', views.index, name='index'),
     path('films/', views.films, name='films'),
     path('films/add-movie/', views.add_movie, name='add_movie'),
@@ -15,6 +14,7 @@ urlpatterns = [
     path('best_movies/', views.best_movies, name='best_movies'),
     path('movie/<int:movie_id>/description/', views.movie_description, name='movie_description'),
     path('movie/<int:movie_id>/reviews/', views.movie_reviews, name='movie_reviews'),
+    path('signup/', views.signup, name='signup'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
