@@ -1,76 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 {% load static %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Film Reviews</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style_movie_description.css' %}">
-    <link rel="icon" href="{% static 'css/img/film-strip.png' %}" type="image/png">
-</head>
-<body>
-    <header>
-        <div class="header-bg"></div>
-    </header>
-    <div class="top-nav">
-        <a href="{% url 'index' %}">
-            <div class="logo">
-            </div>
-        </a>
-        <nav class="menu-container">
-            <div class="menu-wrapper">
-                <ul class="menu">
-                    <li><a href="{% url 'films' %}">Films</a></li>
-                    <li><a href="{% url 'reviews' %}">Reviews</a></li>
-                    <li><a href="{% url 'best_movies' %}">Best movies</a></li>
-                </ul>
-                <div class="auth">
-                    <a href="#" class="login">Login</a>
-                    <a href="#" class="register">Register</a>
-                </div>
-            </div>
-        </nav>
-  
-    </div>
-    <div class="quote-of-the-day">
-        <h2>Quote of the Day</h2>
-        <p id="daily-quote">"May the Force be with you." - Star Wars</p>
-    </div>
-    <main>
-        <div class="movie-detail">
-            <div class="thumb">
-                <img src="{{ movie.image.url }}" alt="{{ movie.name }}">
-            </div>
-            <div class="info-movie">
-                <h1>{{ movie.name }}</h1>
-                <p class="date">{{ movie.add_date|date:"d M Y" }}</p>
-                <p>{{ movie.description }}</p>
-                <a class="back-link" href="{% url 'films' %}">Back to list</a>
-            </div>
-        </div>
 
-    </main>
-    
-    <footer>
-        <div class="footer-container">
-            <div class="info">
-                <h3>About Film Reviews</h3>
-                <p>This site offers detailed reviews of the latest movies, allowing movie enthusiasts to share their insights and opinions on recent releases.</p>
-            </div>
-            <div class="links">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="{% url 'index' %}">Home</a></li>
-                    <li><a href="#">Latest Reviews</a></li>
-                    <li><a href="{% url 'best_movies' %}">Best movies</a></li>
-                </ul>
-            </div>
-            <div class="contact">
-                <h3>Contact Us</h3>
-                <p><img src="../static/css/img/email.png" alt="Email" class="icon" style="width: 20px; height: 20px;"> patrykwo@gmail.com</p>
-                <p><img src="../static/css/img/phone.png" alt="Phone" class="icon" style="width: 20px; height: 20px;"> +48 785 607 021</p>
-            </div>
-        </div>
-    </footer>
-</body>
-</html>
+{% block title %}{{ movie.name }} - Film Reviews{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/style_movie_description.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="movie-detail">
+  <div class="thumb">
+    <img src="{{ movie.image.url }}" alt="{{ movie.name }}">
+  </div>
+  <div class="info-movie">
+    <h1>{{ movie.name }}</h1>
+    <p class="date">{{ movie.add_date|date:"d M Y" }}</p>
+    <p>{{ movie.description }}</p>
+    <p>Average: {{ movie.avg_rating|default:0|floatformat:1 }} / 5</p>
+    <p>Total reviews: {{ movie.reviews_count }}</p>
+    <a class="back-link" href="{% url 'films' %}">Back to list</a>
+  </div>
+</div>
+{% endblock %}

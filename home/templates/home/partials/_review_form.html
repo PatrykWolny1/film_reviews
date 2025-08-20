@@ -6,7 +6,6 @@
     Reviewing as <strong>{{ request.user.username }}</strong>
   </div>
 
-  <!-- If your model still has 'name' field (hidden) -->
   <input type="hidden" name="name" value="{{ request.user.username }}">
 
   <label for="id_movie">Movie</label><br>
@@ -20,6 +19,15 @@
   <label for="id_review">Review</label><br>
   <textarea name="review" id="id_review" rows="4" required></textarea>
   <br><br>
+
+  <label for="id_rating">Rating</label><br>
+  <select name="rating" id="id_rating" required>
+    <option value="" disabled selected>Select rating</option>
+    {% for i in "12345" %}
+      <option value="{{ i }}">{{ i }}</option>
+    {% endfor %}
+  </select>
+  <br>
 
   <div class="submit-wrapper">
     <button type="submit">Add Review</button>

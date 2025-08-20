@@ -45,32 +45,41 @@
 
         <div class="movie-gallery">
         {% for review in reviews %}
-            <div class="movie-card">
+        <div class="movie-card">
             <img src="{{ review.movie.image.url }}" alt="{{ review.movie.name }}">
             <div class="movie-review">
-                <h2>
+            <h2>
                 <a href="{% url 'movie_description' review.movie.id %}">
-                    {{ review.movie.name }}
+                {{ review.movie.name }}
                 </a>
-                </h2>
+            </h2>
 
-                <h3>
+            <h3>
                 User:
                 <strong>
-                    {% if review.user %}{{ review.user.username }}{% else %}{{ review.name }}{% endif %}
+                {% if review.user %}{{ review.user.username }}{% else %}{{ review.name }}{% endif %}
                 </strong>
                 &nbsp; Date: {{ review.add_date|date:"d.m.Y" }}
-                </h3>
+            </h3>
 
-                <p>{{ review.review }}</p>
-                <p style="margin-top:6px; font-size: 0.9em; color:#aaa;">
+            <p class="review-stars" aria-label="Rating {{ review.rating }} out of 5">
+                {% for i in "12345" %}
+                <span class="star{% if forloop.counter <= review.rating %} filled{% endif %}">★</span>
+                {% endfor %}
+                <span class="rating-number">({{ review.rating }}/5)</span>
+            </p>
+
+            <p>{{ review.review }}</p>
+
+            <p style="margin-top:6px; font-size: 0.9em; color:#aaa;">
                 Review ID: {{ review.id }}
-                </p>
+            </p>
             </div>
-            </div>
+        </div>
         {% empty %}
-            <p>No reviews yet.</p>
+        <p>No reviews yet.</p>
         {% endfor %}
+
         <div class="movie-add-new" id="openAddReviewModal">
             <div class="film-card add-new">
             <div class="add-placeholder">

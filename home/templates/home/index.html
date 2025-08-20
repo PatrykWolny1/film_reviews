@@ -1,88 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 {% load static %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Film Reviews</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style_index.css' %}">
-    <link rel="icon" href="{% static 'css/img/film-strip.png' %}" type="image/png">
-    <script src="{% static '../static/js/index.js' %}" defer></script>
-</head>
-<body>
-    <header>
-        <div class="header-bg"></div>
-    </header>
-    <div class="top-nav">
-        <a href="{% url 'index' %}">
-            <div class="logo">
-            </div>
-        </a>
-        <nav class="menu-container">
-            <div class="menu-wrapper">
-                <ul class="menu">
-                    <li><a href="{% url 'films' %}">Films</a></li>
-                    <li><a href="{% url 'reviews' %}">Reviews</a></li>
-                    <li><a href="{% url 'best_movies' %}">Best movies</a></li>
-                </ul>
-                <div class="auth">
-                    <a href="#" class="login">Login</a>
-                    <a href="#" class="register">Register</a>
-                </div>
-            </div>
-        </nav>
-  
+
+{% block title %}Home - Film Reviews{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/style_index.css' %}">
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/index.js' %}" defer></script>
+{% endblock %}
+
+{% block content %}
+<div class="gallery-section">
+  <div class="section-header">
+    <div class="featured-films">
+      <h2>Featured Films</h2>
     </div>
-    <div class="quote-of-the-day">
-        <h2>Quote of the Day</h2>
-        <p id="daily-quote">"May the Force be with you." - Star Wars</p>
+  </div>
+  <div class="movie-gallery">
+    <div class="movie-thumbnails">
+      <img src="{% static 'css/img/cleaner.jpg' %}" alt="Cleaner" class="blur-effect">
+      <img src="{% static 'css/img/duplicity.jpg' %}" alt="Duplicity" class="favorite">
+      <img src="{% static 'css/img/zzone.jpg' %}" alt="ZZone" class="blur-effect">
+      <img src="{% static 'css/img/counterstrike.jpg' %}" alt="Counterstrike" class="blur-effect">
     </div>
-    <main>
-        <div class="gallery-section">
-            <div class="section-header">
-                <div class="featured-films">
-                    <h2>Featured Films</h2>
-                </div>
-            </div>
-            <div class="movie-gallery">
-                <div class="movie-thumbnails">
-                    <img src="../static/css/img/cleaner.jpg" alt="Cleaner" class="blur-effect">
-                    <img src="../static/css/img/duplicity.jpg" alt="Duplicity" class="favorite">
-                    <img src="../static/css/img/zzone.jpg" alt="ZZone" class="blur-effect">
-                    <img src="../static/css/img/counterstrike.jpg" alt="Counterstrike" class="blur-effect">
-                </div>
-                <div class="movie-details" style="display: none;">
-                    <img class="movie-image" src="" alt="" style="max-height: 350px;">
-                    <div class="text-details">
-                        <h3 class="movie-title"></h3>
-                        <p class="movie-description"></p>
-                        <p class="movie-rating"></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-    
-    <footer>
-        <div class="footer-container">
-            <div class="info">
-                <h3>About Film Reviews</h3>
-                <p>This site offers detailed reviews of the latest movies, allowing movie enthusiasts to share their insights and opinions on recent releases.</p>
-            </div>
-            <div class="links">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="{% url 'index' %}">Home</a></li>
-                    <li><a href="#">Latest Reviews</a></li>
-                    <li><a href="{% url 'best_movies' %}">Best movies</a></li>
-                </ul>
-            </div>
-            <div class="contact">
-                <h3>Contact Us</h3>
-                <p><img src="../static/css/img/email.png" alt="Email" class="icon" style="width: 20px; height: 20px;"> patrykwo@gmail.com</p>
-                <p><img src="../static/css/img/phone.png" alt="Phone" class="icon" style="width: 20px; height: 20px;"> +48 785 607 021</p>
-            </div>
-        </div>
-    </footer>
-</body>
-</html>
+    <div class="movie-details" style="display: none;">
+      <img class="movie-image" src="" alt="" style="max-height: 350px;">
+      <div class="text-details">
+        <h3 class="movie-title"></h3>
+        <p class="movie-description"></p>
+        <p class="movie-rating"></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

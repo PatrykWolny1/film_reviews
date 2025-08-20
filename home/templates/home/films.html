@@ -1,101 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 {% load static %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Film Reviews</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style_films.css' %}">
-    <link rel="icon" href="{% static 'css/img/film-strip.png' %}" type="image/png">
-    <script src="{% static '../static/js/films.js' %}" defer></script>
-</head>
-<body>
-    <header>
-        <div class="header-bg"></div>
-    </header>
-    <div class="top-nav">
-        <a href="{% url 'index' %}">
-            <div class="logo">
-            </div>
-        </a>
-        <nav class="menu-container">
-            <div class="menu-wrapper">
-                <ul class="menu">
-                    <li><a href="{% url 'films' %}">Films</a></li>
-                    <li><a href="{% url 'reviews' %}">Reviews</a></li>
-                    <li><a href="{% url 'best_movies' %}">Best movies</a></li>
-                </ul>
-                <div class="auth">
-                    <a href="#" class="login">Login</a>
-                    <a href="#" class="register">Register</a>
-                </div>
-            </div>
-        </nav>
-  
-    </div>
-    <div class="quote-of-the-day">
-        <h2>Quote of the Day</h2>
-        <p id="daily-quote">"May the Force be with you." - Star Wars</p>
-    </div>
-    <main>
-        <div class="films-section">
-            <div class="list-of-films">
-                <h2>List of films</h2>
-            </div>
-            <div class="films-list">
-                <div class="movie-thumbnails">
-                    {% for movie in template_data.movies %}
-                    <div class="film-card">
-                        <a href="{% url 'movie_description' movie.id %}"><img src="{{ movie.image.url }}" alt="{{ movie.title }}"></a>
-                        <a href="{% url 'movie_description' movie.id %}" class="btn-link-wrapper"><button class="btn-description">Description</button></a>
-                        <a href="{% url 'movie_reviews' movie.id %}" class="btn-link-wrapper"><button class="btn-review">Review</button></a>
-                    </div>
-                    {% endfor %}
-                    <!-- Add New movie card with modal trigger -->
-                    <div class="film-card add-new" id="openAddMovieModal">
-                        <div class="add-placeholder">
-                            <span>ADD NEW MOVIE</span>
-                        </div>
-                    </div>
 
-                    <!-- Modal Form -->
-                    <div id="addMovieModal" class="modal" style="display:none;">
-                        <div class="modal-content">
-                            <span class="close" aria-label="Close">&times;</span>
-                            {% include "home/partials/_movie_form.html" %}
-                        </div>
-                    </div>
+{% block title %}Films - Film Reviews{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/style_films.css' %}">
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/films.js' %}" defer></script>
+{% endblock %}
 
-                    {% if messages %}
-                    <div class="flash">
-                        {% for m in messages %}<p>{{ m }}</p>{% endfor %}
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
+{% block content %}
+<div class="films-section">
+  <div class="list-of-films">
+    <h2>List of films</h2>
+  </div>
+  <div class="films-list">
+    <div class="movie-thumbnails">
+      {% for movie in movies %}
+      <div class="film-card">
+          <a href="{% url 'movie_description' movie.id %}">
+          <img src="{{ movie.image.url }}" alt="{{ movie.name }}">
+          </a>
+
+          <div class="btn-wrapper">
+          <a href="{% url 'movie_description' movie.id %}" class="btn-description">Description</a>
+          <a href="{% url 'movie_reviews' movie.id %}" class="btn-review">Review</a>
+          </div>
+      </div>
+      {% endfor %}
+
+      <!-- Add New movie card with modal trigger -->
+      <div class="film-card add-new" id="openAddMovieModal">
+        <div class="add-placeholder"><span>ADD NEW MOVIE</span></div>
+      </div>
+
+      <!-- Modal Form -->
+      <div id="addMovieModal" class="modal" style="display:none;">
+        <div class="modal-content">
+          <span class="close" aria-label="Close">&times;</span>
+          {% include "home/partials/_movie_form.html" %}
         </div>
-    </main>
-    
-    <footer>
-        <div class="footer-container">
-            <div class="info">
-                <h3>About Film Reviews</h3>
-                <p>This site offers detailed reviews of the latest movies, allowing movie enthusiasts to share their insights and opinions on recent releases.</p>
-            </div>
-            <div class="links">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="{% url 'index' %}">Home</a></li>
-                    <li><a href="#">Latest Reviews</a></li>
-                    <li><a href="{% url 'best_movies' %}">Best movies</a></li>
-                </ul>
-            </div>
-            <div class="contact">
-                <h3>Contact Us</h3>
-                <p><img src="../static/css/img/email.png" alt="Email" class="icon" style="width: 20px; height: 20px;"> patrykwo@gmail.com</p>
-                <p><img src="../static/css/img/phone.png" alt="Phone" class="icon" style="width: 20px; height: 20px;"> +48 785 607 021</p>
-            </div>
-        </div>
-    </footer>
-</body>
-</html>
+      </div>
+
+      {% if messages %}
+      <div class="flash">
+        {% for m in messages %}<p>{{ m }}</p>{% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if movies.paginator.num_pages > 1 %}
+  <div class="pagination">
+    <span class="step-links">
+      {% if movies.has_previous %}
+        <a class="btn-page" href="?page=1">&laquo; first</a>
+        <a class="btn-page" href="?page={{ movies.previous_page_number }}">previous</a>
+      {% endif %}
+      <span class="current badge-page">
+        Page {{ movies.number }} of {{ movies.paginator.num_pages }}
+      </span>
+      {% if movies.has_next %}
+        <a class="btn-page" href="?page={{ movies.next_page_number }}">next</a>
+        <a class="btn-page" href="?page={{ movies.paginator.num_pages }}">last &raquo;</a>
+      {% endif %}
+    </span>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

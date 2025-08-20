@@ -6,15 +6,28 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
+from django.db.models import Avg, Count
 
 def index(request):
     return render(request, 'home/index.html')
 
 def films(request):
-    template_data = {}
-    template_data['title'] = 'Movies'
-    template_data['movies'] = Movie.objects.all()
-    return render(request, 'home/films.html', {'template_data': template_data})
+    movies_qs = (
+        Movie.objects
+        .annotate(
+            avg_rating=Avg('reviews__rating'),
+            reviews_count=Count('reviews__rating')
+        )
+        .order_by('-add_date')
+    )
+    paginator = Paginator(movies_qs, 7)
+    page_number = request.GET.get('page')
+    movies = paginator.get_page(page_number)
+
+    return render(request, 'home/films.html', {
+        'title': 'Movies',
+        'movies': movies,
+    })
 
 def add_movie(request):
     if request.method == 'POST':
@@ -64,14 +77,24 @@ def best_movies(request):
 
 # Buttons description and review
 def movie_description(request, movie_id):
-    movie = get_object_or_404(Movie, id=movie_id)
-
+    movie = (
+        Movie.objects
+        .annotate(
+            avg_rating=Avg('reviews__rating'),
+            reviews_count=Count('reviews__rating')
+        )
+        .get(id=movie_id)
+    )
     return render(request, 'home/movie_description.html', {'movie': movie})
 
 def movie_reviews(request, movie_id):
-    movie = get_object_or_404(
-        Movie.objects.select_related().prefetch_related("reviews__user"),
-        id=movie_id
+    movie = (
+        Movie.objects
+        .annotate(
+            avg_rating=Avg('reviews__rating'),
+            reviews_count=Count('reviews__rating')
+        )
+        .get(id=movie_id)
     )
     reviews = movie.reviews.all().order_by("-add_date")  # newest first
     return render(request, "home/movie_reviews.html", {"movie": movie, "reviews": reviews})
@@ -86,3 +109,26 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, 'registration/signup.html', {'form': form})
+
+def login(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)   # auto login after signup
+            return redirect('films')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/signup.html', {'form': form})
+
+def best_movies(request):
+    movies = (
+        Movie.objects
+        .annotate(
+            avg_rating=Avg('reviews__rating'),
+            review_count=Count('reviews')
+        )
+        .filter(review_count__gt=0)  # only movies with reviews
+        .order_by('-avg_rating', '-review_count')[:5]  # top 5
+    )
+    return render(request, 'home/best_movies.html', {'movies': movies})
