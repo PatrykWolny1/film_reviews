@@ -1,10 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Movie
+from .models import Movie, Review
 from .forms import MovieForm, ReviewForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator
 
 def index(request):
     return render(request, 'home/index.html')
@@ -49,7 +50,14 @@ def add_review(request):
 
 def reviews(request):
     movies = Movie.objects.all().order_by("name")
-    return render(request, 'home/reviews.html', {'movies' : movies})
+    reviews = (Review.objects
+            .select_related("movie", "user")  
+            .order_by("-add_date")) 
+    paginator = Paginator(reviews, 4)  # 4 reviews per page
+    page_number = request.GET.get('page')
+    reviews = paginator.get_page(page_number)
+          
+    return render(request, 'home/reviews.html', {'movies' : movies, 'reviews' : reviews})
 
 def best_movies(request):
     return render(request, 'home/best_movies.html')
@@ -61,13 +69,12 @@ def movie_description(request, movie_id):
     return render(request, 'home/movie_description.html', {'movie': movie})
 
 def movie_reviews(request, movie_id):
-    movie = get_object_or_404(Movie, id=movie_id)
-    reviews = movie.reviews.all()  # related_name='reviews'
-
-    return render(request, 'home/movie_reviews.html', {
-        'movie': movie,
-        'reviews': reviews,
-    })
+    movie = get_object_or_404(
+        Movie.objects.select_related().prefetch_related("reviews__user"),
+        id=movie_id
+    )
+    reviews = movie.reviews.all().order_by("-add_date")  # newest first
+    return render(request, "home/movie_reviews.html", {"movie": movie, "reviews": reviews})
 
 def signup(request):
     if request.method == "POST":
