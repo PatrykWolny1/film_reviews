@@ -7,7 +7,8 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'js/index.js' %}" defer></script>
+  {{ block.super }}
+  <script src="{% static 'js/index.js' %}" defer></script>
 {% endblock %}
 
 {% block content %}

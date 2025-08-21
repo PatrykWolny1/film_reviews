@@ -8,7 +8,9 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/style_base.css' %}">
   <link rel="icon" href="{% static 'css/img/film-strip.png' %}" type="image/png">
   {% block extra_css %}{% endblock %}
-  {% block extra_js %}{% endblock %}
+  {% block extra_js %}
+    <script src="{% static 'js/cookies.js' %}" defer></script>
+  {% endblock %}
 </head>
 <body>
   <header>
@@ -69,5 +71,19 @@
       </div>
     </div>
   </footer>
+    <!-- Cookie Consent Modal -->
+  <div id="cookie-overlay" class="cookie-overlay" hidden></div>
+
+  <div id="cookie-modal" class="cookie-modal" role="dialog" aria-modal="true" aria-labelledby="cookie-title" hidden>
+    <h3 id="cookie-title">We use cookies</h3>
+    <p>
+      This website uses cookies to ensure you get the best experience.
+      You can change your preferences in your browser at any time.
+    </p>
+    <div class="cookie-actions">
+      <button id="accept-cookies" class="cookie-btn primary">Accept</button>
+      <button id="decline-cookies" class="cookie-btn">Decline</button>
+    </div>
+  </div>
 </body>
 </html>

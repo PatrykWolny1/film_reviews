@@ -3,10 +3,11 @@
 
 {% block title %}Films - Film Reviews{% endblock %}
 {% block extra_css %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/style_films.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style_films.css' %}">
 {% endblock %}
 {% block extra_js %}
-<script src="{% static 'js/films.js' %}" defer></script>
+  {{ block.super }}
+  <script src="{% static 'js/films.js' %}" defer></script>
 {% endblock %}
 
 {% block content %}
