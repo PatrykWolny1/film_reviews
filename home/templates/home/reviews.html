@@ -1,153 +1,102 @@
-<!DOCTYPE html>
-<html lang="en">
+{# templates/home/reviews.html #}
+{% extends "base.html" %}
 {% load static %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Film Reviews</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style_reviews.css' %}">
-    <link rel="icon" href="{% static 'css/img/film-strip.png' %}" type="image/png">
-    <script src="{% static '../static/js/reviews.js' %}" defer></script>
-</head>
-<body>
-    <header>
-        <div class="header-bg"></div>
-    </header>
-    <div class="top-nav">
-        <a href="{% url 'index' %}">
-            <div class="logo">
-            </div>
-        </a>
-        <nav class="menu-container">
-            <div class="menu-wrapper">
-                <ul class="menu">
-                    <li><a href="{% url 'films' %}">Films</a></li>
-                    <li><a href="{% url 'reviews' %}">Reviews</a></li>
-                    <li><a href="{% url 'best_movies' %}">Best movies</a></li>
-                </ul>
-                <div class="auth">
-                    <a href="#" class="login">Login</a>
-                    <a href="#" class="register">Register</a>
-                </div>
-            </div>
-        </nav>
-  
+
+{% block title %}Reviews – Film Reviews{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/style_reviews.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/reviews.js' %}" defer></script>
+{% endblock %}
+
+{% block content %}
+<div class="reviews-section">
+  <div class="list-of-reviews">
+    <h2>List of reviews</h2>
+  </div>
+
+  <div class="movie-gallery">
+    {% for review in reviews %}
+      <div class="movie-card">
+        <img src="{{ review.movie.image.url }}" alt="{{ review.movie.name }}">
+        <div class="movie-review">
+          <h2>
+            <a href="{% url 'movie_description' review.movie.id %}">
+              {{ review.movie.name }}
+            </a>
+          </h2>
+
+          <h3>
+            User:
+            <strong>
+              {% if review.user %}{{ review.user.username }}{% else %}{{ review.name }}{% endif %}
+            </strong>
+            &nbsp; Date: {{ review.add_date|date:"d.m.Y" }}
+          </h3>
+
+          <p class="review-stars" aria-label="Rating {{ review.rating }} out of 5">
+            {% for i in "12345" %}
+              <span class="star{% if forloop.counter <= review.rating %} filled{% endif %}">★</span>
+            {% endfor %}
+            <span class="rating-number">({{ review.rating }}/5)</span>
+          </p>
+
+          <p>{{ review.review }}</p>
+
+          <p style="margin-top:6px; font-size: 0.9em; color:#aaa;">
+            Review ID: {{ review.id }}
+          </p>
+        </div>
+      </div>
+    {% empty %}
+      <p>No reviews yet.</p>
+    {% endfor %}
+
+    <div class="movie-add-new" id="openAddReviewModal">
+      <div class="film-card add-new">
+        <div class="add-placeholder">
+          <span>ADD NEW REVIEW</span>
+        </div>
+      </div>
     </div>
-    <div class="quote-of-the-day">
-        <h2>Quote of the Day</h2>
-        <p id="daily-quote">"May the Force be with you." - Star Wars</p>
-    </div>
-    <main>
-    <div class="reviews-section">
-        <div class="list-of-reviews">
-        <h2>List of reviews</h2>
-        </div>
+  </div>
 
-        <div class="movie-gallery">
-        {% for review in reviews %}
-        <div class="movie-card">
-            <img src="{{ review.movie.image.url }}" alt="{{ review.movie.name }}">
-            <div class="movie-review">
-            <h2>
-                <a href="{% url 'movie_description' review.movie.id %}">
-                {{ review.movie.name }}
-                </a>
-            </h2>
+  {# Pagination #}
+  {% if reviews.paginator.num_pages > 1 %}
+    <div class="pagination">
+      <span class="step-links">
+        {% if reviews.has_previous %}
+          <a class="btn-page" href="?page=1">&laquo; first</a>
+          <a class="btn-page" href="?page={{ reviews.previous_page_number }}">previous</a>
+        {% endif %}
 
-            <h3>
-                User:
-                <strong>
-                {% if review.user %}{{ review.user.username }}{% else %}{{ review.name }}{% endif %}
-                </strong>
-                &nbsp; Date: {{ review.add_date|date:"d.m.Y" }}
-            </h3>
-
-            <p class="review-stars" aria-label="Rating {{ review.rating }} out of 5">
-                {% for i in "12345" %}
-                <span class="star{% if forloop.counter <= review.rating %} filled{% endif %}">★</span>
-                {% endfor %}
-                <span class="rating-number">({{ review.rating }}/5)</span>
-            </p>
-
-            <p>{{ review.review }}</p>
-
-            <p style="margin-top:6px; font-size: 0.9em; color:#aaa;">
-                Review ID: {{ review.id }}
-            </p>
-            </div>
-        </div>
-        {% empty %}
-        <p>No reviews yet.</p>
-        {% endfor %}
-
-        <div class="movie-add-new" id="openAddReviewModal">
-            <div class="film-card add-new">
-            <div class="add-placeholder">
-                <span>ADD NEW REVIEW</span>
-            </div>
-            </div>
-        </div>
-        </div>
-        <!-- ⬇️ Pagination must be AFTER the loop -->
-        {% if reviews.paginator.num_pages > 1 %}
-        <div class="pagination">
-        <span class="step-links">
-            {% if reviews.has_previous %}
-            <a class="btn-page" href="?page=1">&laquo; first</a>
-            <a class="btn-page" href="?page={{ reviews.previous_page_number }}">previous</a>
-            {% endif %}
-
-            <span class="current badge-page">
-            Page {{ reviews.number }} of {{ reviews.paginator.num_pages }}
-            </span>
-
-            {% if reviews.has_next %}
-            <a class="btn-page" href="?page={{ reviews.next_page_number }}">next</a>
-            <a class="btn-page" href="?page={{ reviews.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
+        <span class="current badge-page">
+          Page {{ reviews.number }} of {{ reviews.paginator.num_pages }}
         </span>
-        </div>
 
+        {% if reviews.has_next %}
+          <a class="btn-page" href="?page={{ reviews.next_page_number }}">next</a>
+          <a class="btn-page" href="?page={{ reviews.paginator.num_pages }}">last &raquo;</a>
         {% endif %}
-
-
-
-        <div id="addReviewModal" class="modal" style="display:none;">
-        <div class="modal-content">
-            <span class="close" aria-label="Close">&times;</span>
-            {% include "home/partials/_review_form.html" with movies=movies %}
-        </div>
-        </div>
-
-        {% if messages %}
-        <div class="flash">
-            {% for m in messages %}<p>{{ m }}</p>{% endfor %}
-        </div>
-        {% endif %}
+      </span>
     </div>
-    </main>
+  {% endif %}
 
-    
-    <footer>
-        <div class="footer-container">
-            <div class="info">
-                <h3>About Film Reviews</h3>
-                <p>This site offers detailed reviews of the latest movies, allowing movie enthusiasts to share their insights and opinions on recent releases.</p>
-            </div>
-            <div class="links">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="{% url 'index' %}">Home</a></li>
-                    <li><a href="#">Latest Reviews</a></li>
-                    <li><a href="{% url 'best_movies' %}">Best movies</a></li>
-                </ul>
-            </div>
-            <div class="contact">
-                <h3>Contact Us</h3>
-                <p><img src="../static/css/img/email.png" alt="Email" class="icon" style="width: 20px; height: 20px;"> patrykwo@gmail.com</p>
-                <p><img src="../static/css/img/phone.png" alt="Phone" class="icon" style="width: 20px; height: 20px;"> +48 785 607 021</p>
-            </div>
-        </div>
-    </footer>
-</body>
-</html>
+  {# Modal #}
+  <div id="addReviewModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" aria-label="Close">&times;</span>
+      {% include "home/partials/_review_form.html" with movies=movies %}
+    </div>
+  </div>
+
+  {% if messages %}
+    <div class="flash">
+      {% for m in messages %}<p>{{ m }}</p>{% endfor %}
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

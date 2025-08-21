@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Film Reviews{% endblock %}</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style_base.css' %}">
   <link rel="icon" href="{% static 'css/img/film-strip.png' %}" type="image/png">
   {% block extra_css %}{% endblock %}
   {% block extra_js %}{% endblock %}
@@ -27,7 +28,7 @@
         </ul>
         <div class="auth">
           {% if user.is_authenticated %}
-            <span class="welcome">Hi, {{ user.username }}</span>
+            <span class="welcome">Hi, <b>{{ user.username }}</b></span>
             <a href="{% url 'logout' %}" class="logout">Logout</a>
           {% else %}
             <a href="{% url 'login' %}" class="login">Login</a>
