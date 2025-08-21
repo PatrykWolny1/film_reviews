@@ -1,0 +1,113 @@
+.auth {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    padding-right: 60px;
+    font-size: 18px;
+}
+
+.auth a {
+    text-decoration: none;
+    font-weight: bold;  
+    height: 100%;
+    display: flex;
+    align-items: center; 
+    padding: 0 12px;
+}
+
+.login {
+    color: #F9F9F9;
+    border-radius: 10px;
+}
+
+.auth .login:hover {
+    color: #e0c945;
+    background: linear-gradient(to top, #121e20, #203438);
+    border-radius: 10px;
+    transition: 0.3s ease;
+}
+
+.register {
+    padding: 25px 25px;
+    color: #000f0b;
+    text-align: center;
+    border-radius: 10px;
+    background: linear-gradient(to bottom, #e0c945, #bda520);
+    line-height: 1;
+}
+
+.auth .welcome {
+    font-size: 16px;
+    font-weight: 500;
+    color: #e0c945;
+}
+
+/* Logout button */
+.auth .logout {
+    color: #F9F9F9;
+    border-radius: 10px;
+    transition: 0.3s ease;
+}
+
+.auth .logout:hover {
+    color: #e0c945;
+    background: linear-gradient(to top, #121e20, #203438);
+    border-radius: 10px;
+    transition: 0.3s ease;
+}
+
+/* Overlay behind the modal */
+.cookie-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 9998;
+}
+
+/* Centered modal */
+.cookie-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 520px;
+  width: calc(100% - 32px);
+  background: #111;
+  color: #fff;
+  padding: 20px 22px;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  z-index: 9999;
+  text-align: left;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+/* Buttons */
+.cookie-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  justify-content: flex-end;
+}
+
+.cookie-btn {
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #2b2b2b;
+  color: #fff;
+  font-weight: 600;
+}
+
+.cookie-btn.primary {
+  background: #ffcc00;
+  color: #000;
+}
+
+/* Optional: stop scroll when modal is open */
+body.cookie-lock {
+  overflow: hidden;
+}
