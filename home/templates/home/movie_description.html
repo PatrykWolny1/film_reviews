@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ movie.name }} - Film Reviews{% endblock %}
+{% block extra_css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style_movie_description.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="movie-detail">
+  <div class="thumb">
+    <img src="{{ movie.image.url }}" alt="{{ movie.name }}">
+  </div>
+  <div class="info-movie">
+    <h1>{{ movie.name }}</h1>
+    <p class="date">{{ movie.add_date|date:"d M Y" }}</p>
+    <p>{{ movie.description }}</p>
+    <p>Average: {{ movie.avg_rating|default:0|floatformat:1 }} / 5</p>
+    <p>Total reviews: {{ movie.reviews_count }}</p>
+    <a class="back-link" href="{% url 'films' %}">Back to list</a>
+  </div>
+</div>
+{% endblock %}

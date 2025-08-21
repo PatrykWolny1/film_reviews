@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/style_index.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/style_signup.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+  {{ block.super }}
+  <script src="{% static 'js/index.js' %}" defer></script>
+{% endblock %}
+
+{% block content %}
+<main>
+  <div class="signup-card">
+    <h1>Sign up</h1>
+    <form method="post">{% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Sign up</button>
+    </form>
+    <p class="login-link">
+      Already have an account? <a href="{% url 'login' %}">Log in</a>
+    </p>
+  </div>
+</main>
+{% endblock %}

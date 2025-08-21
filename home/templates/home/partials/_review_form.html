@@ -1,0 +1,35 @@
+<form id="reviewForm" method="POST" enctype="multipart/form-data" action="{% url 'add_review' %}">
+  {% csrf_token %}
+
+  <!-- Show current user -->
+  <div class="review-header" style="margin-bottom: 10px; color: white;">
+    Reviewing as <strong>{{ request.user.username }}</strong>
+  </div>
+
+  <input type="hidden" name="name" value="{{ request.user.username }}">
+
+  <label for="id_movie">Movie</label><br>
+  <select name="movie" id="id_movie" required>
+    {% for movie in movies %}
+      <option value="{{ movie.id }}">{{ movie.name }}</option>
+    {% endfor %}
+  </select>
+  <br><br>
+
+  <label for="id_review">Review</label><br>
+  <textarea name="review" id="id_review" rows="4" required></textarea>
+  <br><br>
+
+  <label for="id_rating">Rating</label><br>
+  <select name="rating" id="id_rating" required>
+    <option value="" disabled selected>Select rating</option>
+    {% for i in "12345" %}
+      <option value="{{ i }}">{{ i }}</option>
+    {% endfor %}
+  </select>
+  <br>
+
+  <div class="submit-wrapper">
+    <button type="submit">Add Review</button>
+  </div>
+</form>

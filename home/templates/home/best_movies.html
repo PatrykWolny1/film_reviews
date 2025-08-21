@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Best Movies - Film Reviews{% endblock %}
+{% block extra_css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style_best_movies.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="best-movies-section">
+  <div class="list-of-best-movies">
+    <h2>Top 5 Movies</h2>
+  </div>
+
+  <div class="movie-gallery">
+    {% for movie in movies %}
+      <div class="movie-card">
+        <a href="{% url 'movie_description' movie.id %}">
+          <img src="{{ movie.image.url }}" alt="{{ movie.name }}">
+        </a>
+        <div class="movie-review">
+          <h2>
+            <a href="{% url 'movie_description' movie.id %}">{{ movie.name }}</a>
+          </h2>
+          <a class="btn-review" href="{% url 'movie_reviews' movie.id %}">Read Reviews</a>
+          <p><b>Average rating:</b> {{ movie.avg_rating|floatformat:1 }} / 5</p>
+          <p><b>Total reviews:</b> {{ movie.review_count }}</p>
+        </div>
+      </div>
+    {% empty %}
+      <p>No movies with reviews yet.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
