@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
-import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -89,6 +88,8 @@ WSGI_APPLICATION = "film_reviews.wsgi.application"
 ON_RENDER = os.getenv("RENDER_FILM_REVIEWS") == "1"
 
 if ON_RENDER:
+    import dj_database_url
+
     # Use PostgreSQL from Render's DATABASE_URL
     DATABASES = {
         "default": dj_database_url.config(
